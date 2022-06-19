@@ -1,0 +1,7 @@
+[run]
+source=authentication/,helpers/,licenses/,api/
+omit=
+    venv
+    */migrations/*
+    */tests/*
+    */__init__.py
