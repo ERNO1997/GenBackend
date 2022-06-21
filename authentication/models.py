@@ -1,12 +1,15 @@
 from django.apps import apps
 from django.db import models
 from helpers.models import TrackingModel
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
+from datetime import datetime, timedelta
+import jwt
 
 
 class GenUserManager(BaseUserManager):
@@ -94,9 +97,13 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     objects = GenUserManager()
 
     EMAIL_FIELD = "email"
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     @property
     def token(self):
-        return ''
+        token = jwt.encode(
+            {'username': self.username, 'email': self.email,
+             'exp': datetime.utcnow() + timedelta(hours=24)},
+            settings.SECRET_KEY, algorithm='HS256')
+        return token
