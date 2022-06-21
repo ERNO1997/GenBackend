@@ -35,12 +35,14 @@ class TestModels(APITestCase):
         self.assertTrue(user.is_superuser)
 
     def test_cant_create_super_user_with_no_is_staff_status(self):
+        # todo check why this is not throwing an error
         with self.assertRaisesMessage(ValueError, 'Superuser must have is_staff=True'):
             User.objects.create_superuser(
-                username='Test username', email='test@test.com', password='teSt123_@', is_staff=False)
+                username='Test_username', email='test@test.com', password='teSt123_@', is_staff=False)
 
     def test_cant_create_super_user_with_no_is_super_user_status(self):
+        # todo check why this is not throwing an error
         with self.assertRaisesMessage(ValueError, 'Superuser must have is_superuser=True'):
             User.objects.create_superuser(
-                username='Test username', email='test@test.com', password='teSt123_@', is_superuser=False)
+                username='Test_username', email='test@test.com', password='teSt123_@', is_superuser=False)
 
