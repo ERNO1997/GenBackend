@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
 import jwt
+import uuid
 
 
 class GenUserManager(BaseUserManager):
@@ -61,6 +62,12 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
     username_validator = UnicodeUsernameValidator()
 
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
     username = models.CharField(
         _("username"),
         max_length=150,
@@ -88,17 +95,28 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
             "Unselect this instead of deleting accounts."
         ),
     )
-    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     email_verified = models.BooleanField(
         _("email_verified"),
         default=False,
         help_text=_("Designates whether this user's email is verified."),
     )
+    # todo photo
+    description = models.CharField(
+        _("description"),
+        max_length=256,
+        default='',
+        blank=True,
+        help_text=_("A brief description about what user does.")
+    )
+
     objects = GenUserManager()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
+
+    class Meta:
+        db_table = 'user'
 
     @property
     def token(self):
