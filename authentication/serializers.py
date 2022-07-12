@@ -8,7 +8,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', )
+        fields = ('email', 'password', 'token')
+        read_only_fields = ('token', )
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -21,6 +22,6 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'token')
+        fields = ('email', 'password', 'token')
         read_only_fields = ('token', )
 
