@@ -21,7 +21,7 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IS_HEROKU = "DYNO" in os.environ
+IS_HEROKU = 'DATABASE_URL' in os.environ
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -90,7 +90,7 @@ DATABASES = {
     }
 }
 
-if "DATABASE_URL" in os.environ:
+if 'DATABASE_URL' in os.environ:
     # Configure Django for DATABASE_URL environment variable.
     DATABASES["default"] = dj_database_url.config(
         conn_max_age=MAX_CONN_AGE, ssl_require=True)

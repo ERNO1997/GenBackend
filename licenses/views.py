@@ -3,6 +3,13 @@ from rest_framework import response, status, permissions
 from rest_framework.generics import GenericAPIView, ListAPIView
 from licenses.models import License, Payment
 from licenses.serializers import LicenseSerializer, PaymentSerializer
+import os
+from django.http import HttpResponse
+
+
+def index(request):
+    times = int(os.environ.get('TIMES', 3))
+    return HttpResponse('Hello! ' * times)
 
 
 class LicenseStatusAPIView(GenericAPIView):

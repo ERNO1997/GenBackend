@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from GenBackend import settings
+from licenses.views import index
 
 urlpatterns = [
+    path('', index),
     path('admin/', admin.site.urls),
     path('api/auth/', include('authentication.urls')),
     path('api/license/', include('licenses.urls')),
