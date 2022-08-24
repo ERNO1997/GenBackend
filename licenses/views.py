@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 def index(request):
     times = int(os.environ.get('TIMES', 3))
-    return HttpResponse('Hello! ' * times)
+    return HttpResponse('Hello! ' * times + ' ' + os.environ.get('SECRET_KEY'))
 
 
 class LicenseStatusAPIView(GenericAPIView):
